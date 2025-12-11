@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', sans-serif; }
+    body { background:#f4f4f4; padding:20px; }
+    .container { max-width:1000px; margin:auto; background:white; border-radius:15px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,0.1); }
+    header { background:#e74c3c; color:white; padding:20px; text-align:center; }
+    h1 { font-size:2.5em; }
+    .menu { display:grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap:20px; padding:30px; }
+    .item { background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 5px 15px rgba(0,0,0,0.1); transition:0.3s; }
+    .item:hover { transform:translateY(-10px); }
+    .item img { width:100%; height:180px; object-fit:cover; }
+    .info { padding:15px; }
+    .info h3 { margin-bottom:8px; color:#2c3e50; }
+    .harga { font-size:1.4em; font-weight:bold; color:#e74c3c; margin:10px 0; }
+    button.tambah { 
+      width:100%; padding:12px; background:#27ae60; color:white; border:none; 
+      cursor:pointer; font-size:1.1em; border-radius:0 0 12px 12px; transition:0.3s;
+    }
+    button.tambah:hover { background:#219150; }
+
+    .keranjang { background:#2c3e50; color:white; padding:20px; }
+    #listKeranjang { margin:15px 0; }
+    .keranjang-item { display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #444; }
+    #subtotal { font-size:1.5em; font-weight:bold; text-align:right; margin-top:15px; }
+    #checkoutBtn { 
+      width:100%; padding:15px; background:#f39c12; border:none; color:white; 
+      font-size:1.3em; cursor:pointer; margin-top:20px; border-radius:8px;
+    }
+    #checkoutBtn:hover { background:#e67e22; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>Menu RM Maranggi!</h1>
+    <p>Pilihki menu makanan favorita dan nikmatiki hidangan lezatnya RM Maranggi!</p>
+  </header>
+
+  <!-- menunya -->
+  <div class="menu" id="menuMakanan">
+    <!-- itemnya ada diJS -->
+  </div>
+
+  <!-- kerangjang totalnya -->
+  <div class="keranjang">
+    <h2>Keranjang Belanja</h2>
+    <div id="listKeranjang">Isiki keranjangnya jangki liat" saja</div>
+    <div id="subtotal">Subtotal: Rp 0</div>
+    <button id="checkoutBtn">Pesan</button>
+  </div>
+</div>
+
+<script>
+//daftar menu
+const daftarMenu = [
+  { id:1, nama:"Nasi Goreng Spesial", harga:25000, gambar:"nasgor.jpg" },
+  { id:2, nama:"Mie Goreng Jawa", harga:20000, gambar:"mie.jpg" },
+  { id:3, nama:"Ayam Geprek Sambal Ijo", harga:28000, gambar:"Ayam Geprek.jpg" },
+  { id:4, nama:"Sate Ayam Madura 10 Tusuk", harga:30000, gambar:"sate.jpg" },
+  { id:5, nama:"Es Teh Manis", harga:3000, gambar:"esteh.jpg" },
+  { id:6, nama:"Kwetiau Goreng Seafood", harga:35000, gambar:"kwetiau.jpg" },
+  
+];
+
+//render menu 
+const menuContainer = document.getElementById("menuMakanan");
+daftarMenu.forEach(m => {
+  const div = document.createElement("div");
+  div.className = "item";
+  div.innerHTML = `
+    <img src="${m.gambar}" alt="${m.nama}">
+    <div class="info">
+      <h3>${m.nama}</h3>
+      <div class="harga">Rp ${m.harga.toLocaleString('id-ID')}</div>
+      <button class="tambah" onclick="tambahKeKeranjang(${m.id})">+ Tambah</button>
+    </div>
+  `;
+  menuContainer.appendChild(div);
+});
+
+//keranjang 
+let keranjang = [];
+
+function tambahKeKeranjang(id){
+  const menu = daftarMenu.find(m => m.id === id);
+  const ada = keranjang.find(item => item.id === id);
+  if(ada){
+    ada.jumlah += 1;
+  } else {
+    keranjang.push({...menu, jumlah:1});
+  }
+  updateKeranjang();
+}
+
+function updateKeranjang(){
+  const list = document.getElementById("listKeranjang");
+  if(keranjang.length === 0){
+    list.innerHTML = "Keranjang kosong bro...";
+    document.getElementById("subtotal").textContent = "Subtotal: Rp 0";
+    return;
+  }
+
+  let total = 0;
+  list.innerHTML = "";
+  keranjang.forEach(item => {
+    const subtotalItem = item.harga * item.jumlah;
+    total += subtotalItem;
+    const div = document.createElement("div");
+    div.className = "keranjang-item";
+    div.innerHTML = `
+      <span>${item.nama} x${item.jumlah}</span>
+      <span>Rp ${subtotalItem.toLocaleString('id-ID')}</span>
+    `;
+    list.appendChild(div);
+  });
+
+  document.getElementById("subtotal").textContent = 
+    `Subtotal: Rp ${total.toLocaleString('id-ID')}`;
+}
+
+document.getElementById("checkoutBtn").addEventListener("click", () => {
+  if(keranjang.length === 0){
+    alert("Keranjang masih kosong bro!");
+    return;
+  }
+
+  // data yang nanti dikirim
+  const dataPesanan = {
+    items: keranjang,
+    subtotal: keranjang.reduce((sum, i) => sum + i.harga * i.jumlah, 0),
+    waktu: new Date().toLocaleString('id-ID')
+  };
+
+  fetch("/menu", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(dataPesanan)
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.redirect) {
+      window.location.href = data.redirect;
+      return;
+    }
+    if (data.success) {
+      alert(data.message);
+      keranjang = [];
+      updateKeranjang();
+    } else {
+      alert(data.message);
+    }
+  })
+  .catch(err => alert("Error: " + err));
+});
+</script>
+
+
+</body>
+</html>

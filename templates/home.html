@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class=flashes>
+        {% for category, message in messages %}
+          <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+        </ul> 
+      {% endif %}
+    {% endwith %}
+
+    <h1>Ini halaman home</h1>
+        --isinya halaman home seperti biasa, kemudia ada navbar menu atau sidebar bisa juga untuk ke menu--
+
+    <a href="{{ url_for('menu_page') }}">Menu</a>
+</body>
+</html>
