@@ -75,4 +75,5 @@ RM.Maringgi/
 
 
 NOTE1: untuk admin masukkan memangmi datanya di table "admin_login" supaya terverifikasi nanti kalau mau login admin 
-NOTE2: di folder templates disimpan frontend nya
+NOTE2: di folder templates disimpan frontend(UI/UX) dll,di folder static untuk css atau js
+
