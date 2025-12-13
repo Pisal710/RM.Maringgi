@@ -11,7 +11,7 @@ bcrypt = Bcrypt(app)
 
 @app.route('/')
 def root():
-    return redirect(url_for('home_page'))       
+    return redirect(url_for('home_page'))
 
 @app.route("/login", methods=["GET", "POST"])
 def login_page():
@@ -24,22 +24,22 @@ def login_page():
 
     if request.method == "GET":
         return render_template("login.html")
-    
+
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
-        
+
         if not username or not password:
             flash("Username dan password harus diisi", "error")
             return render_template("login.html")
-        
+
         data = login(username, password)
-        
+
         if data:
             session['username'] = data.get('username')
             session['user_id'] = data.get('id')
             session['role'] = data.get('role')
-            
+
             if data.get('role') == 'admin':
                 return redirect(url_for('admin_dashboard'))
             else:
@@ -56,23 +56,23 @@ def register_page():
         email = request.form.get("email")
         username = request.form.get("username")
         password = request.form.get("password")
-        
+
         if not email or not username or not password:
             flash("Semua field harus diisi", "error")
             return render_template("register.html")
-        
+
         success = register(email, username, password)
-        
+
         if success:
             flash("Registrasi berhasil! Silakan login.", "success")
             return redirect(url_for("login_page"))
-        
+
         flash("Registrasi gagal. Silakan coba lagi.", "error")
     return render_template("register.html")
 
 @app.route("/admin", methods=["GET"])
 def admin_dashboard():
-    return render_template("admin_page.html")    
+    return render_template("admin_page.html")
 
 @app.route("/home", methods=["GET"])
 def home_page():
@@ -100,6 +100,10 @@ def menu_page():
         else:
             return {"success": False, "message": "Gagal menyimpan pesanan"}, 500
     return render_template("menu.html")
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('login_page'))
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

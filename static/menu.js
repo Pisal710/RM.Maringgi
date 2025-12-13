@@ -10,7 +10,7 @@ const daftarMenu = [
       { id: 9, nama: "Sop Buntut", harga: 45000, gambar: "Sop Buntut.jpg" }
     ];
 
-    //render menu 
+    //render menu
     const menuContainer = document.getElementById("menuMakanan");
     daftarMenu.forEach(m => {
       const div = document.createElement("div");
@@ -26,7 +26,7 @@ const daftarMenu = [
       menuContainer.appendChild(div);
     });
 
-    //keranjang 
+    //keranjang
     let keranjang = [];
 
     function tambahKeKeranjang(id) {
@@ -78,7 +78,7 @@ const daftarMenu = [
         `Subtotal: Rp ${total.toLocaleString('id-ID')}`;
     }
 
-    // sudah checkout dikirim ke php+sql
+    // sudah checkout dikirim ke Flask backend
     document.getElementById("checkoutBtn").addEventListener("click", () => {
       if (keranjang.length === 0) return alert("Keranjang kosong bro!");
       document.getElementById("pilihMetode").style.display = "flex";
@@ -96,14 +96,33 @@ const daftarMenu = [
 
       const data = {
         items: keranjang,
-        subtotal: keranjang.reduce((s, i) => s + i.harga * i.jumlah, 0),
-        metode: "takeaway",
-        pelanggan: { nama: "Ambil Sendiri" },
-        waktu: new Date().toLocaleString('id-ID')
+        subtotal: keranjang.reduce((s, i) => s + i.harga * i.jumlah, 0)
       };
 
-      fetch("simpan_pesanan.php", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) })
-        .then(r => r.text()).then(h => { alert(h); keranjang = []; updateKeranjang(); });
+      fetch("/menu", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      })
+      .then(r => r.json())
+      .then(response => {
+        if(response.redirect) {
+          // Redirect to login if not authenticated
+          window.location.href = response.redirect;
+        } else {
+          alert(response.message);
+          if(response.success) {
+            keranjang = [];
+            updateKeranjang();
+          }
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Terjadi kesalahan saat menyimpan pesanan');
+      });
     }
 
     // Batal dari form delivery
@@ -120,22 +139,36 @@ const daftarMenu = [
 
       const data = {
         items: keranjang,
-        subtotal: keranjang.reduce((s, i) => s + i.harga * i.jumlah, 0),
-        metode: "delivery",
-        pelanggan: { nama, hp, alamat },
-        waktu: new Date().toLocaleString('id-ID')
+        subtotal: keranjang.reduce((s, i) => s + i.harga * i.jumlah, 0)
       };
 
-      fetch("simpan_pesanan.php", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) })
-        .then(r => r.text())
-        .then(h => {
-          alert(h);
-          document.getElementById("formDelivery").style.display = "none";
-          keranjang = [];
-          updateKeranjang();
-          // reset form
-          document.getElementById("nama").value = document.getElementById("hp").value = document.getElementById("alamat").value = "";
-        });
+      fetch("/menu", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      })
+      .then(r => r.json())
+      .then(response => {
+        if(response.redirect) {
+          // Redirect to login if not authenticated
+          window.location.href = response.redirect;
+        } else {
+          alert(response.message);
+          if(response.success) {
+            document.getElementById("formDelivery").style.display = "none";
+            keranjang = [];
+            updateKeranjang();
+            // reset form
+            document.getElementById("nama").value = document.getElementById("hp").value = document.getElementById("alamat").value = "";
+          }
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Terjadi kesalahan saat menyimpan pesanan');
+      });
     }
     // Tambah jumlah item
     function tambahItem(index) {
