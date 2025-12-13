@@ -6,8 +6,8 @@ from utils.login import login
 from utils.order import save_order
 
 app = Flask(__name__)
-bcrypt = Bcrypt(app)
 app.secret_key = os.urandom(24)
+bcrypt = Bcrypt(app)
 
 @app.route('/')
 def root():
@@ -15,6 +15,13 @@ def root():
 
 @app.route("/login", methods=["GET", "POST"])
 def login_page():
+    #untuk debuggin
+    #print("Form data:", request.form)
+    #username = request.form.get('username')
+    #password = request.form.get('password')
+    #print("Username:", username)
+    #print("Password:", password)
+
     if request.method == "GET":
         return render_template("login.html")
     

@@ -303,8 +303,20 @@
         waktu: new Date().toLocaleString('id-ID')
       };
 
-      fetch("simpan_pesanan.php", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) })
-        .then(r => r.text()).then(h => { alert(h); keranjang = []; updateKeranjang(); });
+      fetch("/menu", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) })
+        .then(r => r.json())
+        .then(res => {
+          if (res.success) {
+            alert(res.message);
+            keranjang = [];
+            updateKeranjang();
+          } else {
+            alert(res.message);
+            if (res.redirect) {
+              window.location.href = res.redirect;
+            }
+          }
+        }).catch(err => alert("Error: " + err.message));
     }
 
     // Batal dari form delivery
@@ -327,16 +339,23 @@
         waktu: new Date().toLocaleString('id-ID')
       };
 
-      fetch("simpan_pesanan.php", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) })
-        .then(r => r.text())
-        .then(h => {
-          alert(h);
-          document.getElementById("formDelivery").style.display = "none";
-          keranjang = [];
-          updateKeranjang();
-          // reset form
-          document.getElementById("nama").value = document.getElementById("hp").value = document.getElementById("alamat").value = "";
-        });
+      fetch("/menu", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) })
+        .then(r => r.json())
+        .then(res => {
+          if (res.success) {
+            alert(res.message);
+            document.getElementById("formDelivery").style.display = "none";
+            keranjang = [];
+            updateKeranjang();
+            // reset form
+            document.getElementById("nama").value = document.getElementById("hp").value = document.getElementById("alamat").value = "";
+          } else {
+            alert(res.message);
+            if (res.redirect) {
+              window.location.href = res.redirect;
+            }
+          }
+        }).catch(err => alert("Error: " + err.message));
     }
     // Tambah jumlah item
     function tambahItem(index) {
