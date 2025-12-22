@@ -15,7 +15,7 @@ def root():
 
 @app.route("/login", methods=["GET", "POST"])
 def login_page():
-    #untuk debuggin
+    #untuk debugging
     #print("Form data:", request.form)
     #username = request.form.get('username')
     #password = request.form.get('password')
@@ -84,7 +84,14 @@ def menu_page():
         return render_template("menu.html")
     elif request.method == "POST":
         if 'user_id' not in session:
-            return {"success": False,"message":"Anda harus login terlebih dahulu","redirect": "/login"}
+            # Cek apakah ini permintaan untuk mengecek status login saja
+            data = request.get_json()
+            if data and len(data.get('items', [])) == 0 and data.get('subtotal') == 0:
+                # Ini adalah permintaan pengecekan status, kirimkan redirect saja
+                return {"success": False, "message": "Anda harus login terlebih dahulu", "redirect": "/login"}
+
+            # Jika tidak, user sedang mencoba mengirim pesanan tanpa login
+            return {"success": False, "message": "Anda harus login terlebih dahulu", "redirect": "/login"}
 
         data = request.get_json()
         if not data or 'items' not in data or 'subtotal' not in data:
@@ -94,7 +101,10 @@ def menu_page():
         items = data['items']
         subtotal = data['subtotal']
 
-        success = save_order(user_id, items, subtotal)
+        # Cek apakah ada informasi pengiriman
+        delivery_info = data.get('delivery_info')
+
+        success = save_order(user_id, items, subtotal, delivery_info)
         if success:
             return {"success": True, "message": "Pesanan berhasil disimpan!"}
         else:
@@ -103,6 +113,9 @@ def menu_page():
 @app.route('/logout')
 def logout():
     session.clear()
+    # Hapus juga data keranjang dari localStorage (client-side)
+    # Tapi karena ini server-side, kita hanya bisa membersihkan session
+    # Untuk localStorage, kita harus menghapusnya di sisi client
     return redirect(url_for('login_page'))
 
 if __name__ == '__main__':

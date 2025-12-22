@@ -1,79 +1,112 @@
-# RM.Maringgi - Aplikasi Pemesanan Makanan
+# RM Maranggi - Aplikasi Pemesanan Makanan
 
-Aplikasi web berbasis **Flask** untuk pemesanan makanan dengan sistem login, menu interaktif, keranjang belanja, dan penyimpanan pesanan ke database MySQL.
----
-🛠️ Cara Menjalankan Project
+Aplikasi web untuk restoran RM Maranggi yang memungkinkan pelanggan memesan makanan secara online dengan pilihan pengantaran atau ambil sendiri.
 
-### 1. Clone Repository
-        Pastikan sudah install Git di komputer. Lalu jalankan:
-        '''
-        git clone https://github.com/Pisal710/RM.Maringgi.git
-        cd RM.Maringgi
-        '''
+## Fitur Utama
 
-        2.buat virtual env(opsional tapi disarankan)
-        jalankan:
-        "python -m venv env"
+### 1. Sistem Login
+- Login untuk pengguna dan admin
+- Proteksi akses ke fitur pemesanan
 
-        -aktifkan env
-        "venv\Scripts\activate" 
+### 2. Daftar Menu
+- Menampilkan daftar menu makanan
+- Harga dan gambar untuk setiap item
 
-        3.install dependencies
-        "pip install -r requirements.txt"
+### 3. Keranjang Belanja
+- Menambah/mengurangi jumlah item
+- Perhitungan otomatis subtotal
 
-        4.buat database phpmyadmin
-            "create database rpl_login"
+### 4. Metode Pengambilan
+- **Ambil Sendiri**: Tampilkan struk dan estimasi waktu selesai
+- **Antar ke Tempat**: Form pengantaran dengan lokasi otomatis
 
-        -- Tabel user_login
-        CREATE TABLE user_login (
-            id INT(255) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-            email VARCHAR(255) NOT NULL,
-            username VARCHAR(255) NOT NULL,
-            password VARCHAR(255) NOT NULL
-        );
+### 5. Fitur Pengantaran
+- Permintaan akses lokasi pengguna
+- Reverse geocoding otomatis
+- Estimasi waktu pengantaran
+- Pengisian manual alamat jika diperlukan
 
-        -- Tabel admin_login
-        CREATE TABLE admin_login (
-            id INT(255) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-            username VARCHAR(255) NOT NULL,
-            password VARCHAR(255) NOT NULL
-        );
+### 6. Struk Pesanan
+- Untuk pengambilan sendiri: struk dengan estimasi waktu selesai
+- Untuk pengantaran: struk dengan detail pengiriman
+- Fungsi cetak struk
 
-        -- Tabel orders
-        CREATE TABLE orders (
-            id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-            user_id INT(11) NOT NULL,
-            subtotal DECIMAL(12,2) NOT NULL,
-            created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            CONSTRAINT fk_orders_user FOREIGN KEY (user_id) REFERENCES user_login(id)
-        );
+### 7. Persistensi Data
+- Data keranjang disimpan di localStorage
+- Informasi pengiriman disimpan saat redirect ke login
+- Pemulihan data setelah login selesai
 
-        -- Tabel order_items
-        CREATE TABLE order_items (
-            id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-            order_id INT(11) NOT NULL,
-            menu_id INT(11) NOT NULL,
-            nama VARCHAR(100) NOT NULL,
-            harga DECIMAL(12,2) NOT NULL,
-            jumlah INT(11) NOT NULL,
-            CONSTRAINT fk_order FOREIGN KEY (order_id) REFERENCES orders(id)
-        );
+## Struktur File
 
-### 2.struktur folder
-RM.Maringgi/
-├── app.py
-├── utils/
-├── koneksi/
-├── templates/
+```
+RM.maringgi/
+├── app.py                 # Aplikasi Flask utama
+├── requirements.txt       # Dependencies
+├── .env                   # Konfigurasi lingkungan
 ├── static/
-├── requirements.txt
-└── README.md
+│   ├── menu_functions.js  # Fungsi-fungsi menu
+│   ├── cart_functions.js  # Fungsi-fungsi keranjang
+│   ├── delivery_functions.js # Fungsi-fungsi pengantaran
+│   ├── receipt_functions.js # Fungsi-fungsi struk
+│   ├── menu_app.js       # Inisialisasi aplikasi
+│   └── menu.css          # Styling
+├── templates/
+│   ├── menu.html         # Halaman pemesanan
+│   ├── login.html        # Halaman login
+│   ├── register.html     # Halaman pendaftaran
+│   └── ...
+├── utils/
+│   ├── login.py          # Fungsi login
+│   ├── register_user.py  # Fungsi pendaftaran
+│   └── order.py          # Fungsi pemesanan
+└── koneksi/
+    └── koneksi.py        # Koneksi database
+```
 
+## Instalasi
 
-### 3.run aplikasi
-    "python app.py" atau "flask run"
+1. Pastikan Python 3.x terinstal
+2. Buat virtual environment:
+   ```
+   python -m venv env
+   ```
+3. Aktifkan virtual environment:
+   ```
+   env\Scripts\activate  # Windows
+   ```
+4. Install dependencies:
+   ```
+   pip install -r requirements.txt
+   ```
+5. Konfigurasi database di file `.env`
+6. Jalankan aplikasi:
+   ```
+   python app.py
+   ```
 
+## Konfigurasi Database
 
-NOTE1: untuk admin masukkan memangmi datanya di table "admin_login" supaya terverifikasi nanti kalau mau login admin 
-NOTE2: di folder templates disimpan frontend(UI/UX) dll,nanti bikinkan folder static untuk simpan css atau js nya
+Pastikan file `.env` berisi:
+```
+DB_HOST=your_host
+DB_USER=your_username
+DB_PASSWORD=your_password
+DB_NAME=your_database
+```
 
+## Penggunaan
+
+1. Buka browser dan akses `http://localhost:5000`
+2. Login atau register terlebih dahulu
+3. Pilih menu yang diinginkan
+4. Tambahkan ke keranjang
+5. Klik "Pesan" dan pilih metode pengambilan:
+   - Ambil Sendiri: Tampilkan struk dan estimasi waktu
+   - Antar ke Tempat: Isi form pengantaran (nama, HP, alamat) dan pilih lokasi
+
+## Teknologi yang Digunakan
+
+- **Backend**: Python Flask
+- **Database**: MySQL
+- **Frontend**: HTML, CSS, JavaScript (modular)
+- **Geocoding**: OpenStreetMap Nominatim API

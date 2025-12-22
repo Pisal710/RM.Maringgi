@@ -15,12 +15,12 @@
             style="background:#00435b; color:white; padding:40px 30px; border-radius:10px; width:90%; max-width:380px; text-align:center;">
             <h2 style="margin-bottom:30px; color:#f5f5f5; font-size:1.8em;">Pilih Cara Ambil</h2>
 
-            <button onclick="pilihDelivery()"
+            <button id="btnDelivery"
                 style="width:100%; padding:18px; margin:12px 0; background:#ffffff; color:rgb(0, 0, 0); border:none; border-radius:12px; font-size:1.2em; font-weight:bold;">
                 Antar ke Tempat
             </button>
 
-            <button onclick="pilihTakeaway()"
+            <button id="btnTakeaway"
                 style="width:100%; padding:18px; margin:12px 0; background:#ffffff; color:rgb(0, 0, 0); border:none; border-radius:12px; font-size:1.2em; font-weight:bold;">
                 Ambil Sendiri
             </button>
@@ -36,12 +36,17 @@
                 style="width:100%; padding:14px; margin:10px 0; border:none; border-radius:10px;">
             <input type="text" id="hp" placeholder="No. HP / WA"
                 style="width:100%; padding:14px; margin:10px 0; border:none; border-radius:10px;">
-            <textarea id="alamat" placeholder="Alamat lengkap + patokan (contoh: Kompleks Marinda Blok B2 No.10)"
-                style="width:100%; height:90px; padding:14px; margin:10px 0; border:none; border-radius:10px;"></textarea>
+            <div style="position:relative;">
+                <textarea id="alamat" placeholder="Alamat lengkap + patokan (contoh: Kompleks Marinda Blok B2 No.10)"
+                    style="width:100%; height:90px; padding:14px; margin:10px 0; border:none; border-radius:10px;"></textarea>
+                <button id="getLocationBtn"
+                    style="position:absolute; bottom:10px; right:10px; padding:5px 10px; background:#4CAF50; color:white; border:none; border-radius:5px; font-size:0.9em; z-index:1000;">Gunakan Lokasi Saat Ini</button>
+            </div>
+            <div id="locationStatus" style="font-size:0.9em; margin:5px 0; color:#ffeb3b;"></div>
             <div style="text-align:right; margin-top:15px;">
-                <button onclick="batalDelivery()"
+                <button id="btnBatalDelivery"
                     style="padding:12px 20px; background:#ffcd07; color:white; border:none; border-radius:10px; margin-right:10px;">Batal</button>
-                <button onclick="kirimDelivery()"
+                <button id="btnKirimDelivery"
                     style="padding:12px 28px; background:#9000ff; color:rgb(255, 255, 255); border:none; border-radius:10px; font-weight:bold;">Kirim
                     Pesanan</button>
             </div>
@@ -71,6 +76,11 @@
         </div>
     </div>
 
-    <script src="/static/menu.js"></script>
+    <!-- Memuat file-file JavaScript terpisah -->
+    <script src="/static/menu_functions.js"></script>
+    <script src="/static/cart_functions.js"></script>
+    <script src="/static/delivery_functions.js"></script>
+    <script src="/static/receipt_functions.js"></script>
+    <script src="/static/menu_app.js"></script>
 </body>
 </html>

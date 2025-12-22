@@ -7,7 +7,6 @@ load_dotenv()
 
 @contextmanager
 def get_db_connection():
-    """Context manager for database connections"""
     conn = None
     try:
         conn = mysql.connector.connect(

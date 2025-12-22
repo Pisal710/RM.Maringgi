@@ -15,6 +15,15 @@ def register(email, username, password):
         cursor = None
         try:
             cursor = db.cursor()
+            # Check if username or email already exists
+            check_query = "SELECT id FROM user_login WHERE username = %s OR email = %s"
+            cursor.execute(check_query, (username, email))
+            existing_user = cursor.fetchone()
+
+            if existing_user:
+                print("Username or email already exists")
+                return False
+
             query = "INSERT INTO user_login (email, username, password) VALUES (%s, %s, %s)"
             hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
             cursor.execute(query, (email, username, hashed_password))
