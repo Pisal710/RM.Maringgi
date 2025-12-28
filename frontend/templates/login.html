@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="/static/login.css">
+</head>
+<body>
+    <div class="login-container">
+        <h1>Login</h1>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <ul class=flashes>
+            {% for category, message in messages %}
+              <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul> 
+          {% endif %}
+        {% endwith %}
+
+        <form action="{{ url_for('login_page') }}" method="post">
+            <label for="username">Username:</label><br>
+            <input type="text" id="username" name="username" ><br><br>
+            <label for="password">Password:</label><br>
+            <input type="password" id="password" name="password" ><br><br>
+            <input type="submit" value="Login">
+        </form>
+        <p>Belum punya akun? <a href="{{ url_for('register_page') }}">Daftar di sini</a></p>
+    </div>
+
+    <div class="guest-section">
+        <h2>Ingin melihat menu terlebih dahulu?</h2>
+        <p>Anda bisa melihat daftar menu kami tanpa harus login</p>
+        <a href="{{ url_for('home_page') }}"><button>Ke Halaman Utama</button></a>
+    </div>
+</body>
+</html>

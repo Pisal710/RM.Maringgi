@@ -1,0 +1,99 @@
+📁 Struktur Folder RM. Maringgi (Backend-Frontend Separation)
+═══════════════════════════════════════════════════════════════
+
+RM.Maringgi/
+│
+├── 🔧 backend/                    ← BACKEND (Flask Logic)
+│   ├── app.py                     (Main Flask app + API endpoints)
+│   ├── utils/
+│   │   ├── register_user.py       (User registration logic)
+│   │   ├── login.py               (Authentication logic)
+│   │   ├── order.py               (Order processing logic)
+│   │   └── __init__.py
+│   ├── koneksi/
+│   │   ├── koneksi.py             (Database connection)
+│   │   └── __init__.py
+│   └── __pycache__/
+│
+├── 🎨 frontend/                   ← FRONTEND (Templates & Assets)
+│   ├── templates/                 (HTML pages)
+│   │   ├── admin_page.html
+│   │   ├── home.html
+│   │   ├── login.html
+│   │   ├── menu.html
+│   │   └── register.html
+│   │
+│   └── static/                    (CSS, JS, Images)
+│       ├── 📄 CSS Files
+│       │   ├── admin.css
+│       │   ├── login.css
+│       │   └── menu.css
+│       │
+│       ├── 📜 JavaScript Files
+│       │   ├── admin.js
+│       │   ├── menu_app.js
+│       │   ├── cart_functions.js
+│       │   ├── delivery_functions.js
+│       │   ├── payment_function.js
+│       │   ├── receipt_functions.js
+│       │   └── menu_functions.js
+│       │
+│       └── 🖼️ images/
+│
+├── ⚙️  Root Configuration Files
+│   ├── run.py                     ⭐ JALANKAN DARI SINI! (python run.py)
+│   ├── app.py                     (deprecated - akan dihapus nanti)
+│   ├── requirements.txt           (Python dependencies)
+│   ├── .env                       (Environment variables)
+│   ├── .gitignore                 (Git ignore rules)
+│   ├── database_setup.sql         (Database schema)
+│   ├── DATABASE_DOCUMENTATION.md  (Database docs)
+│   ├── FOLDER_STRUCTURE.md        (Dokumentasi struktur)
+│   ├── SETUP_INSTRUCTIONS.md      (Setup guide)
+│   └── readme.md                  (Project README)
+│
+├── 🐍 RPLenv/                     (Python Virtual Environment)
+│   └── [venv files]
+│
+└── 📚 Documentation Files
+    └── [Various markdown files]
+
+═══════════════════════════════════════════════════════════════
+
+✨ KEUNTUNGAN STRUKTUR BARU:
+
+1. ✅ CLEAN SEPARATION
+   - Backend logic di satu tempat
+   - Frontend assets di satu tempat
+   - Mudah dikembangkan independently
+
+2. ✅ MUDAH MAINTENANCE
+   - Cari file → cek backend/ atau frontend/
+   - Struktur yang logical & consistent
+   - Kurang confusion saat development
+
+3. ✅ SCALABLE
+   - Bisa replace backend dengan API lain
+   - Bisa move frontend ke React/Vue di masa depan
+   - Flexible untuk growth
+
+4. ✅ PROFESSIONAL
+   - Best practice dalam development
+   - Akan lebih mudah onboarding developer baru
+   - Terlihat organized & professional
+
+═══════════════════════════════════════════════════════════════
+
+🚀 CARA MENJALANKAN:
+
+1. Aktifkan venv:
+   source RPLenv/bin/activate    (Linux/Mac)
+   RPLenv\Scripts\activate       (Windows)
+
+2. Jalankan aplikasi:
+   python run.py
+
+3. Buka browser:
+   http://127.0.0.1:5000
+
+═══════════════════════════════════════════════════════════════

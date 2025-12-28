@@ -1,112 +1,406 @@
-# RM Maranggi - Aplikasi Pemesanan Makanan
+# 🍽️ RM Maringgi - Aplikasi Pemesanan Makanan Online
 
-Aplikasi web untuk restoran RM Maranggi yang memungkinkan pelanggan memesan makanan secara online dengan pilihan pengantaran atau ambil sendiri.
+Aplikasi web modern untuk restoran RM Maringgi yang memungkinkan pelanggan memesan makanan secara online dengan berbagai pilihan pembayaran dan metode pengambilan.
 
-## Fitur Utama
+---
 
-### 1. Sistem Login
-- Login untuk pengguna dan admin
-- Proteksi akses ke fitur pemesanan
+## ✨ Fitur Utama
 
-### 2. Daftar Menu
-- Menampilkan daftar menu makanan
-- Harga dan gambar untuk setiap item
+### 👥 Sistem Autentikasi
+- ✅ **Login** - Untuk pengguna dan admin
+- ✅ **Register** - Pendaftaran pengguna baru dengan password hashing (bcrypt)
+- ✅ **Session Management** - Proteksi akses ke fitur pemesanan
+- ✅ **Logout** - Pembersihan session dan cache
 
-### 3. Keranjang Belanja
-- Menambah/mengurangi jumlah item
-- Perhitungan otomatis subtotal
+### 🍜 Menu & Keranjang
+- ✅ **Daftar Menu** - 9 item makanan/minuman dengan gambar dan harga
+- ✅ **Keranjang Belanja** - Tambah/kurangi jumlah item secara real-time
+- ✅ **Perhitungan Otomatis** - Subtotal dan PPN (10%)
+- ✅ **Persistensi** - Data keranjang tersimpan di localStorage
 
-### 4. Metode Pengambilan
-- **Ambil Sendiri**: Tampilkan struk dan estimasi waktu selesai
-- **Antar ke Tempat**: Form pengantaran dengan lokasi otomatis
+### 🚗 Metode Pengambilan
+1. **Delivery (Antar ke Tempat)**
+   - Form input: Nama, No HP, Alamat
+   - Auto-lokasi dengan geolocation browser
+   - Reverse geocoding otomatis (OpenStreetMap)
+   - Estimasi waktu pengantaran 30-50 menit
 
-### 5. Fitur Pengantaran
-- Permintaan akses lokasi pengguna
-- Reverse geocoding otomatis
-- Estimasi waktu pengantaran
-- Pengisian manual alamat jika diperlukan
+2. **Takeaway (Ambil Sendiri)**
+   - Estimasi waktu persiapan 15-40 menit
+   - Struk dengan estimasi waktu selesai
+   - Ambil langsung di restoran
 
-### 6. Struk Pesanan
-- Untuk pengambilan sendiri: struk dengan estimasi waktu selesai
-- Untuk pengantaran: struk dengan detail pengiriman
-- Fungsi cetak struk
+### 💳 Sistem Pembayaran
+Mendukung 4 kombinasi metode pembayaran:
 
-### 7. Persistensi Data
-- Data keranjang disimpan di localStorage
-- Informasi pengiriman disimpan saat redirect ke login
-- Pemulihan data setelah login selesai
+#### Delivery:
+- **COD (Cash On Delivery)** - Bayar saat pesanan tiba
+- **Transfer Bank** - Via Virtual Account (auto-generate)
 
-## Struktur File
+#### Takeaway:
+- **Bayar di Tempat** - Bayar saat mengambil pesanan
+- **Transfer Bank** - Via Virtual Account sebelum ambil
+
+**Virtual Account Format**: `900XXXXXX` (6 digit random)
+
+### 📋 Struk Pesanan
+- ✅ Detail lengkap pesanan
+- ✅ Informasi pembayaran sesuai metode
+- ✅ Nomor Virtual Account (jika transfer)
+- ✅ Fungsi cetak (print)
+- ✅ Estimasi waktu pengantaran/persiapan
+
+### 🎛️ Admin Dashboard
+- ✅ **Lihat Pesanan Masuk** - Tabel pesanan real-time
+- ✅ **Detail Pesanan** - Modal dengan informasi lengkap
+- ✅ **Konfirmasi Pesanan** - Update status menjadi confirmed
+- ✅ **Batalkan Pesanan** - Batalkan pesanan dengan konfirmasi
+- ✅ **Hapus Semua Pesanan** - Bulk delete dengan double confirmation
+- ✅ **Refresh Data** - Update real-time tabel pesanan
+
+---
+
+## 🏗️ Struktur Folder
 
 ```
-RM.maringgi/
-├── app.py                 # Aplikasi Flask utama
-├── requirements.txt       # Dependencies
-├── .env                   # Konfigurasi lingkungan
-├── static/
-│   ├── menu_functions.js  # Fungsi-fungsi menu
-│   ├── cart_functions.js  # Fungsi-fungsi keranjang
-│   ├── delivery_functions.js # Fungsi-fungsi pengantaran
-│   ├── receipt_functions.js # Fungsi-fungsi struk
-│   ├── menu_app.js       # Inisialisasi aplikasi
-│   └── menu.css          # Styling
-├── templates/
-│   ├── menu.html         # Halaman pemesanan
-│   ├── login.html        # Halaman login
-│   ├── register.html     # Halaman pendaftaran
-│   └── ...
-├── utils/
-│   ├── login.py          # Fungsi login
-│   ├── register_user.py  # Fungsi pendaftaran
-│   └── order.py          # Fungsi pemesanan
-└── koneksi/
-    └── koneksi.py        # Koneksi database
+RM.Maringgi/
+├── backend/                         # 🔧 Backend (Flask App)
+│   ├── app.py                       # Aplikasi Flask utama + API endpoints
+│   ├── utils/                       # Utility functions
+│   │   ├── login.py                 # Fungsi login & password verification
+│   │   ├── register_user.py         # Fungsi register pengguna
+│   │   ├── order.py                 # Fungsi save order ke database
+│   │   └── __init__.py
+│   ├── koneksi/                     # Koneksi database
+│   │   ├── koneksi.py               # MySQL connector setup
+│   │   └── __init__.py
+│   └── __pycache__/
+│
+├── frontend/                        # 🎨 Frontend (Templates & Static)
+│   ├── templates/                   # File HTML (Jinja2)
+│   │   ├── admin_page.html          # Dashboard admin
+│   │   ├── home.html                # Halaman home
+│   │   ├── login.html               # Halaman login
+│   │   ├── menu.html                # Halaman pemesanan
+│   │   └── register.html            # Halaman register
+│   │
+│   └── static/                      # File statis (CSS, JS, Images)
+│       ├── admin.css                # Styling admin dashboard
+│       ├── admin.js                 # Logic admin dashboard
+│       ├── login.css                # Styling login
+│       ├── menu.css                 # Styling menu
+│       ├── menu_functions.js        # Render menu & tambah keranjang
+│       ├── cart_functions.js        # Fungsi keranjang belanja
+│       ├── delivery_functions.js    # Form delivery & submit order
+│       ├── payment_function.js      # Pilihan pembayaran & submit ke backend
+│       ├── receipt_functions.js     # Struk & takeaway
+│       ├── menu_app.js              # Event listener & inisialisasi
+│       └── images/                  # Gambar menu (9 file)
+│
+├── RPLenv/                          # Python virtual environment
+├── run.py                           # ⭐ ENTRY POINT (jalankan dari sini!)
+├── requirements.txt                 # Dependencies Python
+├── .env                             # Konfigurasi environment
+├── database_setup.sql               # Schema & data dummy (BACA INI!)
+├── DATABASE_DOCUMENTATION.md        # Dokumentasi database
+├── SETUP_INSTRUCTIONS.md            # Setup guide lengkap
+├── FOLDER_STRUCTURE.md              # Dokumentasi struktur folder
+└── readme.md                        # File ini
+
 ```
 
-## Instalasi
+---
 
-1. Pastikan Python 3.x terinstal
-2. Buat virtual environment:
-   ```
-   python -m venv env
-   ```
-3. Aktifkan virtual environment:
-   ```
-   env\Scripts\activate  # Windows
-   ```
-4. Install dependencies:
-   ```
-   pip install -r requirements.txt
-   ```
-5. Konfigurasi database di file `.env`
-6. Jalankan aplikasi:
-   ```
-   python app.py
-   ```
+## 🚀 Instalasi & Setup Lengkap
 
-## Konfigurasi Database
+### Prasyarat (Windows)
+- **Python 3.8+** sudah terinstall
+- **MySQL 5.7+** sudah berjalan
+- **Git** sudah terinstall
 
-Pastikan file `.env` berisi:
-```
-DB_HOST=your_host
-DB_USER=your_username
-DB_PASSWORD=your_password
-DB_NAME=your_database
+---
+
+## 1️⃣ Step 1: Clone Project
+
+```bash
+git clone https://github.com/username/RM.Maringgi.git
+cd RM.Maringgi
 ```
 
-## Penggunaan
+---
 
-1. Buka browser dan akses `http://localhost:5000`
-2. Login atau register terlebih dahulu
-3. Pilih menu yang diinginkan
-4. Tambahkan ke keranjang
-5. Klik "Pesan" dan pilih metode pengambilan:
-   - Ambil Sendiri: Tampilkan struk dan estimasi waktu
-   - Antar ke Tempat: Isi form pengantaran (nama, HP, alamat) dan pilih lokasi
+## 2️⃣ Step 2: Buat Virtual Environment
 
-## Teknologi yang Digunakan
+```bash
+python -m venv RPLenv
+RPLenv\Scripts\activate
+```
 
-- **Backend**: Python Flask
-- **Database**: MySQL
-- **Frontend**: HTML, CSS, JavaScript (modular)
-- **Geocoding**: OpenStreetMap Nominatim API
+**Output jika berhasil**: `(RPLenv)` akan muncul di terminal
+
+---
+
+## 3️⃣ Step 3: Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+**Dependencies yang diinstall:**
+- Flask 3.1.2
+- Flask-Bcrypt 1.0.1
+- MySQL Connector 8.3.0
+- python-dotenv 1.2.1
+
+---
+
+## 4️⃣ Step 4: Setup MySQL Database (PENTING!)
+
+### A. Buat MySQL User Baru
+
+Buka Command Prompt atau PowerShell sebagai Administrator:
+
+```bash
+# Buka MySQL CLI
+mysql -u root -p
+# Masukkan password MySQL root jika ada
+
+# Di MySQL prompt, jalankan:
+CREATE USER 'app_user'@'localhost' IDENTIFIED BY 'app_password';
+GRANT ALL PRIVILEGES ON *.* TO 'app_user'@'localhost';
+FLUSH PRIVILEGES;
+EXIT;
+```
+
+---
+
+### B. Buat Database dari File SQL
+
+```bash
+mysql -u app_user -p login_rpl < database_setup.sql
+# Masukkan password: app_password
+```
+
+---
+
+### C. Verifikasi Database (Optional)
+
+```bash
+mysql -u app_user -p
+# Password: app_password
+
+# Di MySQL prompt:
+USE login_rpl;
+SHOW TABLES;
+SELECT * FROM user_login;
+EXIT;
+```
+
+**Output yang benar:**
+```
++------------------+
+| Tables_in_login_rpl |
++------------------+
+| admin_login      |
+| menu_makanan     |
+| order_items      |
+| orders           |
+| user_login       |
++------------------+
+```
+
+---
+
+## 5️⃣ Step 5: Konfigurasi .env
+
+File `.env` sudah ada dengan isi:
+
+```env
+DB_HOST="localhost"
+DB_USER=app_user
+DB_PASSWORD="app_password"
+DB_NAME=login_rpl
+
+FLASK_APP=app.py
+FLASK_ENV=development 
+FLASK_DEBUG=1
+```
+
+**Jika menggunakan setup berbeda, update nilai di atas**
+
+---
+
+## 6️⃣ Step 6: Jalankan Aplikasi
+
+```bash
+python run.py
+```
+
+**Output yang benar:**
+```
+ * Serving Flask app 'backend.app'
+ * Debug mode: on
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+```
+
+Buka browser: **http://localhost:5000**
+
+---
+
+## 👤 Test Credentials
+
+### User Account
+| Username | Password | Peran |
+|----------|----------|-------|
+| demo | demo123456 | Customer |
+| testuser | password123 | Customer |
+
+### Admin Account
+| Username | Password | Peran |
+|----------|----------|-------|
+| admin | admin123 | Admin |
+
+---
+
+## 📱 User Flow
+
+### 1. Login / Register
+```
+Buka localhost:5000 
+  ↓
+Login (atau Register jika belum ada akun)
+  ↓
+Berhasil → Redirect ke Menu Page
+```
+
+### 2. Pesan Makanan
+```
+Lihat Menu (9 item dengan gambar)
+  ↓
++ Tambah ke Keranjang (pilih beberapa item)
+  ↓
+Lihat Keranjang → Klik "Pesan"
+  ↓
+Pilih Metode: Antar / Ambil Sendiri
+```
+
+### 3. Delivery (Antar)
+```
+Isi Form: Nama, No HP, Alamat
+  ↓
+Sistem bisa auto-lokasi atau isi manual
+  ↓
+Pilih Pembayaran: COD atau Transfer VA
+  ↓
+Lihat Struk
+  ↓
+Klik "Tutup" → Order Tersimpan di Database
+```
+
+### 4. Takeaway (Ambil Sendiri)
+```
+Lihat Estimasi Waktu Persiapan
+  ↓
+Pilih Pembayaran: Bayar di Tempat atau Transfer VA
+  ↓
+Lihat Struk
+  ↓
+Klik "Tutup" → Order Tersimpan di Database
+```
+
+### 5. Admin Lihat Pesanan
+```
+Login sebagai admin
+  ↓
+Admin Dashboard
+  ↓
+Lihat tabel pesanan yang masuk (real-time)
+  ↓
+Klik "Lihat" untuk detail
+  ↓
+Konfirmasi / Batalkan / Hapus Semua pesanan
+```
+
+---
+
+## 🔧 Teknologi Stack
+
+### Backend
+- **Flask** 3.1.2 - Web framework Python
+- **Flask-Bcrypt** 1.0.1 - Password hashing & verification
+- **MySQL Connector** 8.3.0 - Database driver
+- **python-dotenv** 1.2.1 - Environment variables management
+
+### Frontend
+- **HTML5** - Markup
+- **CSS3** - Styling (gradient, flexbox, responsive)
+- **Vanilla JavaScript** - No frameworks/dependencies
+- **localStorage** - Client-side caching cart
+- **sessionStorage** - Session persistence
+- **OpenStreetMap API** - Reverse geocoding
+
+### Database
+- **MySQL** 5.7+ - Relational database
+- **5 Main Tables** - user_login, admin_login, menu_makanan, orders, order_items
+- **3 Views** - v_daily_sales, v_pending_verification, v_popular_menu
+
+**📖 UNTUK DETAIL LENGKAP DATABASE, BACA FILE: `DATABASE_DOCUMENTATION.md`**
+
+---
+
+## 🎯 Fitur Lanjutan
+
+### Cart Persistence
+- Keranjang otomatis tersimpan di localStorage browser
+- Format: JSON array
+- TTL 1 jam (auto-delete jika lebih lama)
+- Restore otomatis saat refresh halaman
+
+### Login Flow dengan Cart Preservation
+- User yang belum login tidak bisa checkout
+- Keranjang & form delivery auto-save
+- Auto-restore setelah login berhasil
+- Seamless transition kembali ke menu
+
+### Payment Status Tracking
+- **Pending** - COD atau menunggu verifikasi transfer
+- **Verified** - Transfer sudah dikonfirmasi admin
+- **Completed** - Pesanan selesai
+- **Cancelled** - Pesanan dibatalkan
+
+### Virtual Account Auto-Generation
+- Format otomatis: `900XXXXXX`
+- 6 digit random number
+- Unik untuk setiap pesanan transfer
+- Disimpan di database untuk audit trail
+
+### Admin Bulk Operations
+- Hapus semua pesanan sekaligus dengan double confirmation
+- Bulk update status pesanan
+- Real-time dashboard updates
+
+---
+
+## 🚀 Quick Start
+
+**Setup cepat untuk Windows:**
+```batch
+python -m venv RPLenv
+RPLenv\Scripts\activate
+pip install -r requirements.txt
+mysql -u app_user -p login_rpl < database_setup.sql
+python run.py
+```
+
+---
+
+## 📄 Dokumentasi Tambahan
+
+📖 **DATABASE_DOCUMENTATION.md** - Dokumentasi database lengkap dengan:
+- Penjelasan setiap tabel
+- Relasi antar tabel
+- Sample queries
+- Views dan indexing
+
+---

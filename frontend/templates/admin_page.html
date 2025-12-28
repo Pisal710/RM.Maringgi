@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - RM. Maringgi</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🍽️ Admin Dashboard - RM. Maringgi</h1>
+            <div class="header-right">
+                <div class="status-indicator">
+                    <div class="status-dot"></div>
+                    <span>Live Updates</span>
+                </div>
+                <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+            </div>
+        </header>
+        
+        <div class="orders-section">
+            <h2>📋 Pesanan Masuk</h2>
+            
+            <div class="btn-group">
+                <button class="refresh-btn" onclick="loadOrders()">🔄 Refresh Manual</button>
+                <button class="delete-all-btn" onclick="deleteAllOrders()">🗑️ Hapus Semua Pesanan</button>
+            </div>
+            
+            <div id="error-message" class="error" style="display:none;"></div>
+            
+            <div id="orders-container">
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>User ID</th>
+                            <th>Total</th>
+                            <th>Tipe</th>
+                            <th>Status</th>
+                            <th>Pembayaran</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orders-tbody">
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="last-updated">
+                Last updated: <span id="last-update-time">-</span>
+                <br>
+                Auto-refresh setiap 3 detik
+            </div>
+        </div>
+        
+        <!-- Modal untuk detail pesanan -->
+        <div id="orderModal" class="order-details-modal">
+            <div class="modal-content">
+                <span class="modal-close" onclick="closeOrderModal()">&times;</span>
+                <h2>Detail Pesanan</h2>
+                <div id="order-detail-content"></div>
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="updateOrderStatus()">Konfirmasi</button>
+                    <button class="btn btn-danger" onclick="cancelOrder()">Batalkan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="{{ url_for('static', filename='admin.js') }}"></script>
+</body>
+</html>
