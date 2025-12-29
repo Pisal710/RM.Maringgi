@@ -250,137 +250,11 @@ Buka browser: **http://localhost:5000**
 
 ## 👤 Test Credentials
 
-### User Account
-| Username | Password | Peran |
-|----------|----------|-------|
-| demo | demo123456 | Customer |
-| testuser | password123 | Customer |
-
 ### Admin Account
 | Username | Password | Peran |
 |----------|----------|-------|
 | admin | admin123 | Admin |
 
----
-
-## 📱 User Flow
-
-### 1. Login / Register
-```
-Buka localhost:5000 
-  ↓
-Login (atau Register jika belum ada akun)
-  ↓
-Berhasil → Redirect ke Menu Page
-```
-
-### 2. Pesan Makanan
-```
-Lihat Menu (9 item dengan gambar)
-  ↓
-+ Tambah ke Keranjang (pilih beberapa item)
-  ↓
-Lihat Keranjang → Klik "Pesan"
-  ↓
-Pilih Metode: Antar / Ambil Sendiri
-```
-
-### 3. Delivery (Antar)
-```
-Isi Form: Nama, No HP, Alamat
-  ↓
-Sistem bisa auto-lokasi atau isi manual
-  ↓
-Pilih Pembayaran: COD atau Transfer VA
-  ↓
-Lihat Struk
-  ↓
-Klik "Tutup" → Order Tersimpan di Database
-```
-
-### 4. Takeaway (Ambil Sendiri)
-```
-Lihat Estimasi Waktu Persiapan
-  ↓
-Pilih Pembayaran: Bayar di Tempat atau Transfer VA
-  ↓
-Lihat Struk
-  ↓
-Klik "Tutup" → Order Tersimpan di Database
-```
-
-### 5. Admin Lihat Pesanan
-```
-Login sebagai admin
-  ↓
-Admin Dashboard
-  ↓
-Lihat tabel pesanan yang masuk (real-time)
-  ↓
-Klik "Lihat" untuk detail
-  ↓
-Konfirmasi / Batalkan / Hapus Semua pesanan
-```
-
----
-
-## 🔧 Teknologi Stack
-
-### Backend
-- **Flask** 3.1.2 - Web framework Python
-- **Flask-Bcrypt** 1.0.1 - Password hashing & verification
-- **MySQL Connector** 8.3.0 - Database driver
-- **python-dotenv** 1.2.1 - Environment variables management
-
-### Frontend
-- **HTML5** - Markup
-- **CSS3** - Styling (gradient, flexbox, responsive)
-- **Vanilla JavaScript** - No frameworks/dependencies
-- **localStorage** - Client-side caching cart
-- **sessionStorage** - Session persistence
-- **OpenStreetMap API** - Reverse geocoding
-
-### Database
-- **MySQL** 5.7+ - Relational database
-- **5 Main Tables** - user_login, admin_login, menu_makanan, orders, order_items
-- **3 Views** - v_daily_sales, v_pending_verification, v_popular_menu
-
-**📖 UNTUK DETAIL LENGKAP DATABASE, BACA FILE: `DATABASE_DOCUMENTATION.md`**
-
----
-
-## 🎯 Fitur Lanjutan
-
-### Cart Persistence
-- Keranjang otomatis tersimpan di localStorage browser
-- Format: JSON array
-- TTL 1 jam (auto-delete jika lebih lama)
-- Restore otomatis saat refresh halaman
-
-### Login Flow dengan Cart Preservation
-- User yang belum login tidak bisa checkout
-- Keranjang & form delivery auto-save
-- Auto-restore setelah login berhasil
-- Seamless transition kembali ke menu
-
-### Payment Status Tracking
-- **Pending** - COD atau menunggu verifikasi transfer
-- **Verified** - Transfer sudah dikonfirmasi admin
-- **Completed** - Pesanan selesai
-- **Cancelled** - Pesanan dibatalkan
-
-### Virtual Account Auto-Generation
-- Format otomatis: `900XXXXXX`
-- 6 digit random number
-- Unik untuk setiap pesanan transfer
-- Disimpan di database untuk audit trail
-
-### Admin Bulk Operations
-- Hapus semua pesanan sekaligus dengan double confirmation
-- Bulk update status pesanan
-- Real-time dashboard updates
-
----
 
 ## 🚀 Quick Start
 
@@ -392,15 +266,3 @@ pip install -r requirements.txt
 mysql -u app_user -p login_rpl < database_setup.sql
 python run.py
 ```
-
----
-
-## 📄 Dokumentasi Tambahan
-
-📖 **DATABASE_DOCUMENTATION.md** - Dokumentasi database lengkap dengan:
-- Penjelasan setiap tabel
-- Relasi antar tabel
-- Sample queries
-- Views dan indexing
-
----
