@@ -1,63 +1,139 @@
 # 🍽️ RM Maringgi - Aplikasi Pemesanan Makanan Online
 
-Aplikasi web untuk restoran RM Maringgi dengan sistem login, menu, keranjang belanja, dan admin dashboard.
+Aplikasi web untuk restoran **RM Maringgi** dengan sistem login, menu interaktif, keranjang belanja, pembayaran, dan admin dashboard.
 
-## ✨ Fitur
+Dibangun menggunakan **Python (Flask)** dan **MySQL** sebagai proyek tugas RPL.
 
-- **Login/Register** - Autentikasi user dengan password hashing
-- **Menu & Keranjang** - 9 item menu dengan perhitungan otomatis
-- **Delivery & Takeaway** - 2 metode pengambilan pesanan
-- **Pembayaran** - COD dan Transfer Bank (Virtual Account)
-- **Struk Pesanan** - Print receipt dengan estimasi waktu
-- **Admin Dashboard** - Kelola pesanan masuk
+---
 
-## 🏗️ Struktur Folder
+## ✨ Fitur Utama
 
+- 🔐 **Autentikasi** - Login dan register dengan password hashing
+- 🍜 **Menu Dinamis** - 9 item menu dengan detail harga dan gambar
+- 🛒 **Keranjang Belanja** - Tambah/kurang item dengan perhitungan otomatis
+- 🚚 **2 Metode Pengambilan** - Delivery atau Takeaway
+- 💳 **Pembayaran Fleksibel** - COD atau Transfer Bank (Virtual Account)
+- 📜 **Struk Digital** - Print receipt dengan estimasi waktu
+- 📊 **Admin Dashboard** - Kelola pesanan masuk secara real-time
+
+---
+
+## 📋 Persyaratan
+
+Pastikan sudah terinstall:
+
+- **Python 3.8+**
+- **MySQL** (XAMPP / Laragon / MySQL Server standalone)
+- **Git**
+
+---
+
+## 🚀 Cara Menjalankan
+
+### 1) Clone Repository
+
+```bash
+git clone <repo_url>
+cd RM.Maringgi
 ```
-RM.Maringgi/
-├── backend/              # Flask App
-│   ├── app.py           # Main app + API endpoints
-│   ├── utils/           # Login, register, order functions
-│   └── koneksi/         # MySQL connector
-├── frontend/            # Templates & Static files
-│   ├── templates/       # HTML pages
-│   └── static/          # CSS, JS, Images
-├── run.py              # Entry point
-└── requirements.txt    # Dependencies
-```
 
-## 🚀 Setup Cepat (Windows)
+### 2) Setup Virtual Environment & Install Dependencies
 
-### 1. Prasyarat
-- Python 3.8+
-- MySQL 5.7+
-
-### 2. Virtual Environment
+**Windows (CMD):**
 ```bash
 python -m venv RPLenv
 RPLenv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### 3. Database Setup
-```bash
-# Buat user MySQL
-mysql -u root -p
-CREATE USER 'app_user'@'localhost' IDENTIFIED BY 'app_password';
-GRANT ALL PRIVILEGES ON *.* TO 'app_user'@'localhost';
-EXIT;
+### 3) Setup Database MySQL
 
-# Import database
+Buka MySQL terminal (gunakan XAMPP / Laragon atau MySQL console):
+
+```sql
+CREATE DATABASE IF NOT EXISTS login_rpl;
+CREATE USER 'app_user'@'localhost' IDENTIFIED BY 'app_password';
+GRANT ALL PRIVILEGES ON login_rpl.* TO 'app_user'@'localhost';
+FLUSH PRIVILEGES;
+EXIT;
+```
+
+Import skema dan data awal:
+
+```bash
 mysql -u app_user -p login_rpl < database_setup.sql
 ```
 
-### 4. Jalankan Aplikasi
+### 4) Konfigurasi Database
+
+Buat file `.env` di root project dengan konten:
+
+```env
+DB_HOST=localhost
+DB_USER=app_user
+DB_PASSWORD=app_password
+DB_NAME=login_rpl
+```
+
+Aplikasi menggunakan `python-dotenv` untuk membaca file ini. Lihat file `backend/koneksi/koneksi.py` untuk detail koneksi.
+
+### 5) Jalankan Aplikasi
+
 ```bash
 python run.py
 ```
 
-Buka: **http://localhost:5000**
+Buka di browser: **http://localhost:5000**
 
-## 👤 Test Credentials
-- **Username**: admin
-- **Password**: admin123
+---
+
+## 👤 Akun Testing
+
+- **Username:** `admin`
+- **Password:** `admin123`
+
+> ⚠️ **Catatan:** Password pada akun testing bisa berubah karena proses hashing tergantung mesin. Jika login gagal, daftarkan user baru melalui halaman Register.
+
+---
+
+## 🗂️ Struktur Project
+
+```
+RM.Maringgi/
+├── backend/
+│   ├── app.py                    # Main Flask app
+│   ├── koneksi/
+│   │   └── koneksi.py           # Database connector
+│   └── utils/
+│       ├── login.py             # Login logic
+│       ├── register_user.py      # Register logic
+│       └── order.py             # Order processing
+├── frontend/
+│   ├── templates/               # HTML pages
+│   │   ├── login.html
+│   │   ├── register.html
+│   │   ├── home.html
+│   │   ├── menu.html
+│   │   └── admin_page.html
+│   └── static/                  # CSS, JS, Images
+│       ├── *.css
+│       ├── *.js
+│       └── images/
+├── run.py                       # Entry point
+├── requirements.txt             # Dependencies
+├── database_setup.sql          # Database schema
+└── readme.md
+```
+
+---
+
+## 📝 Catatan Pengembang
+
+- Database koneksi menggunakan context manager untuk error handling yang lebih baik
+- Password di-hash menggunakan `flask_bcrypt`
+- Session management menggunakan `sessionStorage` di client-side
+- Responsive design untuk mobile dan desktop
+
+---
+
+Jika ada pertanyaan atau masalah, cek file dokumentasi di folder project atau hubungi tim development.

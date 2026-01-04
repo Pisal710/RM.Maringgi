@@ -1,39 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id" data-user-id="{{ session.get('user_id', '') }}" data-username="{{ session.get('username', '') }}" data-role="{{ session.get('role', '') }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Login | RM Maringgi</title>
     <link rel="stylesheet" href="/static/login.css">
 </head>
 <body>
-    <div class="login-container">
-        <h1>Login</h1>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">RM Maringgi</div>
+        <ul style="list-style: none; display: flex; gap: 25px; margin: 0; padding: 0;">
+            <li><a href="{{ url_for('home_page') }}">Home</a></li>
+            <li><a href="{{ url_for('register_page') }}">Register</a></li>
+        </ul>
+    </nav>
 
-        {% with messages = get_flashed_messages(with_categories=true) %}
-          {% if messages %}
-            <ul class=flashes>
-            {% for category, message in messages %}
-              <li class="{{ category }}">{{ message }}</li>
-            {% endfor %}
-            </ul> 
-          {% endif %}
-        {% endwith %}
+    <div class="container">
+        <div class="login-container">
+            <h1>Masuk</h1>
 
-        <form action="{{ url_for('login_page') }}" method="post">
-            <label for="username">Username:</label><br>
-            <input type="text" id="username" name="username" ><br><br>
-            <label for="password">Password:</label><br>
-            <input type="password" id="password" name="password" ><br><br>
-            <input type="submit" value="Login">
-        </form>
-        <p>Belum punya akun? <a href="{{ url_for('register_page') }}">Daftar di sini</a></p>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                <ul class=flashes>
+                {% for category, message in messages %}
+                  <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+                </ul> 
+              {% endif %}
+            {% endwith %}
+
+            <form action="{{ url_for('login_page') }}{% if request.args.get('redirect') %}?redirect={{ request.args.get('redirect') }}{% endif %}" method="post">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required placeholder="Masukkan username Anda"><br>
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required placeholder="Masukkan password Anda"><br>
+
+                <input type="submit" value="Masuk">
+            </form>
+
+            <p>Belum punya akun? <a href="{{ url_for('register_page') }}">Daftar di sini</a></p>
+            <p style="margin-top: 15px; text-align: center; color: #666;">Atau <a href="{{ url_for('home_page') }}" style="color: #8B0000; font-weight: 600;">
+              masuk ke halaman utama</a></p>
+        </div>
     </div>
 
-    <div class="guest-section">
-        <h2>Ingin melihat menu terlebih dahulu?</h2>
-        <p>Anda bisa melihat daftar menu kami tanpa harus login</p>
-        <a href="{{ url_for('home_page') }}"><button>Ke Halaman Utama</button></a>
-    </div>
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 RM Maringgi. All Rights Reserved.</p>
+    </footer>
+
+    <script src="/static/session-init.js"></script>
+    <script>
+        // Override form submit untuk set needsRestore flag sebelum redirect
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const username = document.getElementById('username').value;
+            if (username) {
+                sessionStorage.setItem('needsRestore', 'true');
+                console.log('Login attempt, setting needsRestore flag');
+            }
+        });
+    </script>
 </body>
 </html>

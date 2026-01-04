@@ -7,23 +7,87 @@
 
     body {
       background: #f4f4f4;
-      padding: 20px;
+      color: #333;
+    }
+
+    /* Navbar */
+    .navbar {
+      background-color: #8B0000;
+      color: white;
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    .navbar .logo {
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .navbar a:hover {
+      color: #FFD700;
+      transition: 0.3s;
     }
 
     .container {
-      max-width: 1000px;
+      max-width: 1200px;
       margin: auto;
       background: white;
       border-radius: 15px;
       overflow: hidden;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      margin-top: 20px;
+      margin-bottom: 20px;
     }
 
     header {
-      background: #e74c3c;
+      background: linear-gradient(135deg, #8B0000 0%, #a94f4f 100%);
       color: white;
-      padding: 20px;
+      padding: 30px 20px;
       text-align: center;
+    }
+
+    header h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      font-size: 1.1em;
+      opacity: 0.95;
+    }
+
+    header .user-info {
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid rgba(255, 255, 255, 0.3);
+      font-size: 0.95em;
+    }
+
+    header a {
+      color: #FFD700;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    header a:hover {
+      text-decoration: underline;
     }
 
     h1 {
@@ -43,10 +107,13 @@
       overflow: hidden;
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
       transition: 0.3s;
+      border: 2px solid transparent;
     }
 
     .item:hover {
       transform: translateY(-10px);
+      border-color: #8B0000;
+      box-shadow: 0 10px 25px rgba(139, 0, 0, 0.2);
     }
 
     .item img {
@@ -67,24 +134,25 @@
     .harga {
       font-size: 1.4em;
       font-weight: bold;
-      color: #e74c3c;
+      color: #8B0000;
       margin: 10px 0;
     }
 
     button.tambah {
       width: 100%;
       padding: 12px;
-      background: #27ae60;
+      background: #8B0000;
       color: white;
       border: none;
       cursor: pointer;
       font-size: 1.1em;
       border-radius: 0 0 12px 12px;
       transition: 0.3s;
+      font-weight: 600;
     }
 
     button.tambah:hover {
-      background: #219150;
+      background: #a94f4f;
     }
 
     .keranjang {

@@ -42,6 +42,7 @@ def login_page():
             if data.get('role') == 'admin':
                 return redirect(url_for('admin_dashboard'))
             else:
+                # Redirect ke halaman yang diminta, atau ke /home jika tidak ada
                 redirect_to = request.args.get('redirect', '/home')
                 return redirect(redirect_to)
         else:
@@ -78,9 +79,6 @@ def admin_dashboard():
 def home_page():
     return render_template("home.html")
 
-@app.route("/menu-view", methods=["GET"])
-def menu_view():
-    return render_template("menu.html")
 
 @app.route("/menu", methods=["GET", "POST"])
 def menu_page():
@@ -88,10 +86,7 @@ def menu_page():
         return render_template("menu.html")
     elif request.method == "POST":
         if 'user_id' not in session:
-            data = request.get_json()
-            if data and len(data.get('items', [])) == 0 and data.get('subtotal') == 0:
-                return {"success": False, "message": "Anda harus login terlebih dahulu", "redirect": "/login"}
-            return {"success": False, "message": "Anda harus login terlebih dahulu", "redirect": "/login"}
+            return jsonify({"success": False, "message": "Anda harus login terlebih dahulu", "redirect": "/login?redirect=/menu"}), 401
 
         data = request.get_json()
         if not data or 'items' not in data or 'total' not in data:

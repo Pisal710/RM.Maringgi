@@ -354,7 +354,16 @@ function submitOrder() {
     },
     body: JSON.stringify(orderData)
   })
-  .then(response => response.json())
+  .then(response => {
+    // Handle berbagai status code response
+    if (response.status === 401) {
+      // Unauthorized - user belum login
+      return response.json().then(data => {
+        throw {isUnauthorized: true, ...data};
+      });
+    }
+    return response.json().then(data => ({status: response.status, ...data}));
+  })
   .then(data => {
     if (data.success) {
       console.log('Order berhasil disimpan:', data);
@@ -375,14 +384,32 @@ function submitOrder() {
       
       // Tampilkan success message
       alert('✓ Pesanan Anda telah berhasil diterima!\n\nSilakan tunggu konfirmasi dari kami.');
+    } else if (data.isUnauthorized && data.redirect) {
+      // User belum login, simpan keranjang dan redirect ke login
+      console.log('User belum login, redirecting ke:', data.redirect);
+      localStorage.setItem('cartItems', JSON.stringify(window.currentOrder.items || keranjang));
+      localStorage.setItem('cartTimestamp', Date.now().toString());
+      sessionStorage.setItem('needsRestore', 'true');
+      window.location.href = data.redirect;
     } else {
+      // Error lainnya
       console.error('Error:', data.message);
       alert('❌ Gagal menyimpan pesanan: ' + data.message);
     }
   })
   .catch(error => {
     console.error('Error:', error);
-    alert('❌ Terjadi kesalahan: ' + error);
+    
+    // Handle unauthorized error
+    if (error.isUnauthorized && error.redirect) {
+      console.log('Unauthorized error, redirecting ke:', error.redirect);
+      localStorage.setItem('cartItems', JSON.stringify(window.currentOrder.items || keranjang));
+      localStorage.setItem('cartTimestamp', Date.now().toString());
+      sessionStorage.setItem('needsRestore', 'true');
+      window.location.href = error.redirect;
+    } else {
+      alert('❌ Terjadi kesalahan: ' + (error.message || error));
+    }
   });
 }
 

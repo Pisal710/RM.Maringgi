@@ -1,24 +1,109 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id" data-user-id="{{ session.get('user_id', '') }}" data-username="{{ session.get('username', '') }}" data-role="{{ session.get('role', '') }}">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Home | RM Maringgi</title>
+    <link rel="stylesheet" href="../static/home.css">
 </head>
+
 <body>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        <ul class=flashes>
-        {% for category, message in messages %}
-          <li class="{{ category }}">{{ message }}</li>
-        {% endfor %}
-        </ul> 
-      {% endif %}
-    {% endwith %}
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">RM Maringgi</div>
+        <ul>
+            <li><a href="/home">Home</a></li>
+            <li><a href="/menu">Menu</a></li>
+            <li><a href="#kontak">Kontak</a></li>
+            {% if session.username %}
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            {% else %}
+                <li><a href="{{ url_for('login_page') }}">Login</a></li>
+            {% endif %}
+        </ul>
+    </nav>
 
-    <h1>Ini halaman home</h1>
-        --isinya halaman home seperti biasa, kemudia ada navbar menu atau sidebar bisa juga untuk ke menu--
+    <!-- Hero Section -->
+    <section class="hero">
+        <img src="../static/images/logo_rm.png" alt="Logo RM Maringgi" class="hero-logo">
+        <h1>Selamat Datang di RM Maringgi</h1>
+        <p>
+            Rumah makan dengan cita rasa terbaik, harga terjangkau,
+            dan pelayanan ramah untuk seluruh keluarga.
+        </p>
+        <a href="/menu" class="btn">Lihat Menu</a>
+    </section>
 
-    <a href="{{ url_for('menu_page') }}">Menu</a>
+    <!-- Main Content with Carousel -->
+    <main>
+        <h2 style="text-align: center; color: #8B0000; margin-bottom: 30px; font-size: 24px;">🍽️ Menu Best Seller</h2>
+        <div class="carousel-container">
+            <div class="carousel-slide">
+                <img src="../static/images/nasii goreng spesial.jpg" alt="Nasi Goreng Spesial">
+                <img src="../static/images/sate ayam madura .jpeg" alt="Sate Ayam Madura">
+                <img src="../static/images/Mie_Goreng_Jawa_Pedas.jpg" alt="Mie Goreng Jawa Pedas">
+                <img src="../static/images/coto makassar.jpg" alt="Coto Makassar">
+                <img src="../static/images/sop buntut.jpg" alt="Sop Buntut">
+            </div>
+            <button class="carousel-btn prev-btn">&#10094;</button>
+            <button class="carousel-btn next-btn">&#10095;</button>
+        </div>
+    </main>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <h2>Mengapa Pilih RM Maringgi?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🌟</div>
+                <h3>Cita Rasa Autentik</h3>
+                <p>Masakan nusantara asli dengan resep tradisional yang telah teruji selama bertahun-tahun</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💰</div>
+                <h3>Harga Terjangkau</h3>
+                <p>Nikmati kelezatan dengan harga yang bersahabat untuk semua kalangan masyarakat</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">😊</div>
+                <h3>Pelayanan Ramah</h3>
+                <p>Staf yang profesional dan bersikap ramah siap melayani dengan sepenuh hati</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Pengiriman Cepat</h3>
+                <p>Pesan dari rumah dan kami antar dengan cepat ke lokasi Anda</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" id="kontak">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Tentang Kami</h3>
+                <p>RM Maringgi menyajikan kuliner nusantara dengan cita rasa otentik dan bahan berkualitas pilihan.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Jam Buka</h3>
+                <p>Senin - Jumat: 10.00 - 22.00</p>
+                <p>Sabtu - Minggu: 09.00 - 23.00</p>
+            </div>
+            <div class="footer-section">
+                <h3>Kontak</h3>
+                <p>Jl. Raya Kuliner No. 123</p>
+                <p>Telp: (021) 123-4567</p>
+                <p>Email: info@rmmaringgi.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 RM Maringgi. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../static/session-init.js"></script>
+    <script src="../static/carousel.js"></script>
 </body>
+
 </html>

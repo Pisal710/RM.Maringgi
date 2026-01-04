@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-user-id="{{ session.get('user_id', '') }}" data-username="{{ session.get('username', '') }}" data-role="{{ session.get('role', '') }}">
 
 <head>
     <meta charset="UTF-8" />
@@ -9,20 +9,34 @@
 </head>
 
 <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">RM Maringgi</div>
+        <ul>
+            <li><a href="{{ url_for('home_page') }}">Home</a></li>
+            <li><a href="{{ url_for('menu_page') }}">Menu</a></li>
+            {% if session.username %}
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            {% else %}
+                <li><a href="{{ url_for('login_page') }}">Login</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
     <div id="pilihMetode"
         style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:999; justify-content:center; align-items:center;">
         <div
-            style="background:#00435b; color:white; padding:40px 30px; border-radius:10px; width:90%; max-width:380px; text-align:center;">
+            style="background:linear-gradient(135deg, #8B0000 0%, #a94f4f 100%); color:white; padding:40px 30px; border-radius:10px; width:90%; max-width:380px; text-align:center;">
             <h2 style="margin-bottom:30px; color:#f5f5f5; font-size:1.8em;">Pilih Cara Ambil</h2>
 
             <button id="btnDelivery"
-                style="width:100%; padding:18px; margin:12px 0; background:#ffffff; color:rgb(0, 0, 0); border:none; border-radius:12px; font-size:1.2em; font-weight:bold;">
-                Antar ke Tempat
+                style="width:100%; padding:18px; margin:12px 0; background:#ffffff; color:#8B0000; border:none; border-radius:12px; font-size:1.2em; font-weight:bold; cursor:pointer; transition:0.3s;">
+                🚚 Antar ke Tempat
             </button>
 
             <button id="btnTakeaway"
-                style="width:100%; padding:18px; margin:12px 0; background:#ffffff; color:rgb(0, 0, 0); border:none; border-radius:12px; font-size:1.2em; font-weight:bold;">
-                Ambil Sendiri
+                style="width:100%; padding:18px; margin:12px 0; background:#ffffff; color:#8B0000; border:none; border-radius:12px; font-size:1.2em; font-weight:bold; cursor:pointer; transition:0.3s;">
+                🏪 Ambil Sendiri
             </button>
         </div>
     </div>
@@ -30,8 +44,8 @@
     <!-- FORM ANTAR (hanya muncul kalau pilih delivery) -->
     <div id="formDelivery"
         style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:999; justify-content:center; align-items:center;">
-        <div style="background:#006aff; padding:30px; border-radius:10px; width:90%; max-width:400px; color:white;">
-            <h2 style="text-align:center; margin-bottom:20px; color:#e7e7e7;">Antar ke Tempat</h2>
+        <div style="background:linear-gradient(135deg, #8B0000 0%, #a94f4f 100%); padding:30px; border-radius:10px; width:90%; max-width:400px; color:white;">
+            <h2 style="text-align:center; margin-bottom:20px; color:#e7e7e7;">📍 Antar ke Tempat</h2>
             <input type="text" id="nama" placeholder="Nama Lengkap"
                 style="width:100%; padding:14px; margin:10px 0; border:none; border-radius:10px;">
             <input type="text" id="hp" placeholder="No. HP / WA"
@@ -45,20 +59,21 @@
             <div id="locationStatus" style="font-size:0.9em; margin:5px 0; color:#ffeb3b;"></div>
             <div style="text-align:right; margin-top:15px;">
                 <button id="btnBatalDelivery"
-                    style="padding:12px 20px; background:#ffcd07; color:white; border:none; border-radius:10px; margin-right:10px;">Batal</button>
+                    style="padding:12px 20px; background:#FFD700; color:#8B0000; border:none; border-radius:10px; margin-right:10px; font-weight:bold; cursor:pointer;">Batal</button>
                 <button id="btnKirimDelivery"
-                    style="padding:12px 28px; background:#9000ff; color:rgb(255, 255, 255); border:none; border-radius:10px; font-weight:bold;">Kirim
-                    Pesanan</button>
+                    style="padding:12px 28px; background:#FFD700; color:#8B0000; border:none; border-radius:10px; font-weight:bold; cursor:pointer;">✓ Kirim Pesanan</button>
             </div>
         </div>
     </div>
 
     <div class="container">
         <header>
-            <h1>Menu RM Maranggi!</h1>
-            <p>Pilihki menu makanan favorita dan nikmatiki hidangan lezatnya RM Maranggi!</p>
+            <h1>Menu RM Maranggi</h1>
+            <p>Pilih menu makanan favorita dan nikmati hidangan lezatnya!</p>
             {% if session.username %}
-            <p>Selamat datang, {{ session.username }}! <a href="{{ url_for('logout') }}">Logout</a></p>
+            <div class="user-info">
+                <p>Selamat datang, <strong>{{ session.username }}</strong>! | <a href="{{ url_for('logout') }}">Logout</a></p>
+            </div>
             <script>
               // Store session ke sessionStorage untuk dipakai JavaScript client-side
               sessionStorage.setItem('user_id', '{{ session.user_id }}');
@@ -95,6 +110,7 @@
     </div>
 
     <!-- Memuat file-file JavaScript terpisah -->
+    <script src="/static/session-init.js"></script>
     <script src="/static/menu_functions.js"></script>
     <script src="/static/cart_functions.js"></script>
     <script src="/static/delivery_functions.js"></script>
