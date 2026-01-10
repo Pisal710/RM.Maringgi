@@ -2,27 +2,39 @@
 
 // Data menu
 const daftarMenu = [
-  { id: 1, nama: "Nasi Goreng Spesial", harga: 25000, gambar: "/static/images/nasii goreng spesial.jpg" },
-  { id: 2, nama: "Mie Goreng Jawa", harga: 20000, gambar: "/static/images/Mie_Goreng_Jawa_Pedas.jpg" },
-  { id: 3, nama: "Ayam Geprek Sambal Ijo", harga: 28000, gambar: "/static/images/ayam geprek sambal ijo.jpg" },
-  { id: 4, nama: "Sate Ayam Madura 10 Tusuk", harga: 30000, gambar: "/static/images/sate ayam madura .jpeg" },
-  { id: 5, nama: "Es Teh Manis", harga: 3000, gambar: "/static/images/es teh manis.jpg" },
-  { id: 6, nama: "Kwetiau Goreng Seafood", harga: 35000, gambar: "/static/images/kwetiau goreng seafood.jpeg" },
-  { id: 7, nama: "Coto Makassar", harga: 20000, gambar: "/static/images/coto makassar.jpg" },
-  { id: 8, nama: "Pecel Lele", harga: 22000, gambar: "/static/images/pecel lele.jpg" },
-  { id: 9, nama: "Sop Buntut", harga: 45000, gambar: "/static/images/sop buntut.jpg" }
+  { id: 1, nama: "Nasi Goreng Spesial", harga: 25000 },
+  { id: 2, nama: "Mie Goreng Jawa", harga: 20000 },
+  { id: 3, nama: "Ayam Geprek Sambal Ijo", harga: 28000 },
+  { id: 4, nama: "Sate Ayam Madura 10 Tusuk", harga: 30000 },
+  { id: 5, nama: "Es Teh Manis", harga: 3000 },
+  { id: 6, nama: "Kwetiau Goreng Seafood", harga: 35000 },
+  { id: 7, nama: "Coto Makassar", harga: 20000 },
+  { id: 8, nama: "Pecel Lele", harga: 22000 },
+  { id: 9, nama: "Sop Buntut", harga: 45000 }
 ];
 
-// Fungsi untuk render menu ke halaman
+const gambarMap = {
+  1: "/static/images/nasii goreng spesial.jpg",
+  2: "/static/images/Mie_Goreng_Jawa_Pedas.jpg",
+  3: "/static/images/ayam geprek sambal ijo.jpg",
+  4: "/static/images/sate ayam madura .jpeg",
+  5: "/static/images/es teh manis.jpg",
+  6: "/static/images/kwetiau goreng seafood.jpeg",
+  7: "/static/images/coto makassar.jpg",
+  8: "/static/images/pecel lele.jpg",
+  9: "/static/images/sop buntut.jpg"
+};
+
+
 function renderMenu() {
   const menuContainer = document.getElementById("menuMakanan");
-  menuContainer.innerHTML = ''; // Kosongkan dulu
-  
+  menuContainer.innerHTML = ''; 
+
   daftarMenu.forEach(m => {
     const div = document.createElement("div");
     div.className = "item";
     div.innerHTML = `
-      <img src="${m.gambar}" alt="${m.nama}" style="width:200px; height:150px; object-fit:cover;">
+      <img src="${gambarMap[m.id]}" alt="${m.nama}">
       <div class="info">
         <h3>${m.nama}</h3>
         <div class="harga">Rp ${m.harga.toLocaleString('id-ID')}</div>

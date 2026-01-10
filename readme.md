@@ -9,7 +9,7 @@ Dibangun menggunakan **Python (Flask)** dan **MySQL** sebagai proyek tugas RPL.
 ## ✨ Fitur Utama
 
 - 🔐 **Autentikasi** - Login dan register dengan password hashing
-- 🍜 **Menu Dinamis** - 9 item menu dengan detail harga dan gambar
+- 🍜 **Menu Dinamis** - 9 item menu dengan detail harga
 - 🛒 **Keranjang Belanja** - Tambah/kurang item dengan perhitungan otomatis
 - 🚚 **2 Metode Pengambilan** - Delivery atau Takeaway
 - 💳 **Pembayaran Fleksibel** - COD atau Transfer Bank (Virtual Account)

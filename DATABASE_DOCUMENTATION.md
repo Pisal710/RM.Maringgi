@@ -44,7 +44,6 @@ Menyimpan data menu makanan dan minuman
 - `id` - ID menu (Primary Key)
 - `nama` - Nama menu
 - `harga` - Harga menu (dalam Rupiah)
-- `gambar` - Path gambar menu
 - `deskripsi` - Deskripsi singkat menu
 - `kategori` - Kategori menu (Nasi, Mie, Ayam, dll)
 - `is_available` - Status ketersediaan menu (TRUE/FALSE)

@@ -11,7 +11,10 @@
 <body>
     <!-- Navbar -->
     <nav class="navbar">
-        <div class="logo">RM Maringgi</div>
+        <div class="logo">
+            <img src="{{ url_for('static', filename='images/logo rm .png') }}" alt="RM Maringgi Logo" class="logo-img">
+            <span>RM Maringgi</span>
+        </div>
         <ul>
             <li><a href="{{ url_for('home_page') }}">Home</a></li>
             <li><a href="{{ url_for('menu_page') }}">Menu</a></li>

@@ -26,6 +26,20 @@ body {
 .navbar .logo {
     font-size: 22px;
     font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-img {
+    height: 45px;
+    width: auto;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    transition: transform 0.3s ease;
+}
+
+.navbar .logo:hover .logo-img {
+    transform: scale(1.1) rotate(5deg);
 }
 
 .navbar a {

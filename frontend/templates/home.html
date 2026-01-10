@@ -1,85 +1,197 @@
 <!DOCTYPE html>
-<html lang="id" data-user-id="{{ session.get('user_id', '') }}" data-username="{{ session.get('username', '') }}" data-role="{{ session.get('role', '') }}">
+<html lang="id">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home | RM Maringgi</title>
-    <link rel="stylesheet" href="../static/home.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+
 </head>
 
 <body>
+
     <!-- Navbar -->
     <nav class="navbar">
-        <div class="logo">RM Maringgi</div>
+        <div class="logo">
+            <img src="{{ url_for('static', filename='images/logo rm .png') }}" alt="RM Maringgi Logo" class="logo-img">
+            <span>RM Maringgi</span>
+        </div>
         <ul>
-            <li><a href="/home">Home</a></li>
-            <li><a href="/menu">Menu</a></li>
-            <li><a href="#kontak">Kontak</a></li>
-            {% if session.username %}
-                <li><a href="{{ url_for('logout') }}">Logout</a></li>
-            {% else %}
-                <li><a href="{{ url_for('login_page') }}">Login</a></li>
-            {% endif %}
+            <li><a href="{{ url_for('home_page') }}">Home</a></li>
+            <li><a href="{{ url_for('menu_page') }}">Menu</a></li>
+            <li><a href="#">Kontak</a></li>
         </ul>
-    </nav>
+    </nav> 
 
-    <!-- Hero Section -->
+    <!-- Hero -->
     <section class="hero">
-        <img src="../static/images/logo_rm.png" alt="Logo RM Maringgi" class="hero-logo">
+        <img src="{{ url_for('static', filename='images/logo rm .png') }}" alt="Logo RM Maranggi" class="hero-logo">
         <h1>Selamat Datang di RM Maringgi</h1>
         <p>
             Rumah makan dengan cita rasa terbaik, harga terjangkau,
             dan pelayanan ramah untuk seluruh keluarga.
         </p>
-        <a href="/menu" class="btn">Lihat Menu</a>
+        <a href="{{ url_for('menu_page') }}" class="btn">Lihat Menu</a>
     </section>
 
-    <!-- Main Content with Carousel -->
-    <main>
-        <h2 style="text-align: center; color: #8B0000; margin-bottom: 30px; font-size: 24px;">🍽️ Menu Best Seller</h2>
+    <!-- Best Seller Menu Carousel -->
+    <section class="best-seller-section">
+        <h2>Menu Best Seller</h2>
         <div class="carousel-container">
-            <div class="carousel-slide">
-                <img src="../static/images/nasii goreng spesial.jpg" alt="Nasi Goreng Spesial">
-                <img src="../static/images/sate ayam madura .jpeg" alt="Sate Ayam Madura">
-                <img src="../static/images/Mie_Goreng_Jawa_Pedas.jpg" alt="Mie Goreng Jawa Pedas">
-                <img src="../static/images/coto makassar.jpg" alt="Coto Makassar">
-                <img src="../static/images/sop buntut.jpg" alt="Sop Buntut">
+            <div class="carousel-slide best-seller-slide">
+                <div class="menu-item">
+                    <img src="{{ url_for('static', filename='images/nasii goreng spesial.jpg') }}" alt="Nasi Goreng Spesial">
+                    <div class="menu-info">
+                        <h3>Nasi Goreng Spesial</h3>
+                        <p class="price">Rp 25.000</p>
+                        <p class="description">Nasi goreng dengan telur, ayam, dan sayuran pilihan</p>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <img src="{{ url_for('static', filename='images/sate ayam madura .jpeg') }}" alt="Sate Ayam Madura">
+                    <div class="menu-info">
+                        <h3>Sate Ayam Madura</h3>
+                        <p class="price">Rp 30.000</p>
+                        <p class="description">Sate ayam khas Madura dengan bumbu kacang lezat</p>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <img src="{{ url_for('static', filename='images/Mie_Goreng_Jawa_Pedas.jpg') }}" alt="Mie Goreng Jawa">
+                    <div class="menu-info">
+                        <h3>Mie Goreng Jawa</h3>
+                        <p class="price">Rp 20.000</p>
+                        <p class="description">Mie goreng khas Jawa dengan rasa yang kuat dan pedas</p>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <img src="{{ url_for('static', filename='images/ayam geprek sambal ijo.jpg') }}" alt="Ayam Geprek Sambal Ijo">
+                    <div class="menu-info">
+                        <h3>Ayam Geprek Sambal Ijo</h3>
+                        <p class="price">Rp 28.000</p>
+                        <p class="description">Ayam geprek dengan sambal ijo yang segar dan pedas</p>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <img src="{{ url_for('static', filename='images/coto makassar.jpg') }}" alt="Coto Makassar">
+                    <div class="menu-info">
+                        <h3>Coto Makassar</h3>
+                        <p class="price">Rp 20.000</p>
+                        <p class="description">Sup tradisional Makassar dengan daging sapi empuk</p>
+                    </div>
+                </div>
             </div>
-            <button class="carousel-btn prev-btn">&#10094;</button>
-            <button class="carousel-btn next-btn">&#10095;</button>
+            <button class="carousel-btn prev-btn best-seller-prev-btn">&#10094;</button>
+            <button class="carousel-btn next-btn best-seller-next-btn">&#10095;</button>
         </div>
-    </main>
+    </section>
+
 
     <!-- Features Section -->
     <section class="features-section">
-        <h2>Mengapa Pilih RM Maringgi?</h2>
+        <h2>Kenapa Memilih Kami?</h2>
         <div class="features-grid">
             <div class="feature-card">
-                <div class="feature-icon">🌟</div>
-                <h3>Cita Rasa Autentik</h3>
-                <p>Masakan nusantara asli dengan resep tradisional yang telah teruji selama bertahun-tahun</p>
+                <div class="feature-icon">
+                    <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#FF8C00;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <path
+                            d="M32 2C15.432 2 2 15.432 2 32s13.432 30 30 30 30-13.432 30-30S48.568 2 32 2zm0 56C17.664 58 6 46.336 6 32S17.664 6 32 6s26 11.664 26 26-11.664 26-26 26z"
+                            fill="url(#grad1)" opacity="0.2" />
+                        <path
+                            d="M32 14c-9.941 0-18 8.059-18 18s8.059 18 18 18 18-8.059 18-18-8.059-18-18-18zm0 32c-7.732 0-14-6.268-14-14s6.268-14 14-14 14 6.268 14 14-6.268 14-14 14z"
+                            fill="url(#grad1)" />
+                        <circle cx="32" cy="32" r="10" fill="#8B0000" />
+                        <path d="M32 26c-1.104 0-2 .896-2 2v6c0 1.104.896 2 2 2s2-.896 2-2v-6c0-1.104-.896-2-2-2z"
+                            fill="#FFF" />
+                    </svg>
+                </div>
+                <h3>Rasa Otentik</h3>
+                <p>Resep warisan turun-temurun yang menjaga keaslian cita rasa nusantara di setiap suapan.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">💰</div>
-                <h3>Harga Terjangkau</h3>
-                <p>Nikmati kelezatan dengan harga yang bersahabat untuk semua kalangan masyarakat</p>
+                <div class="feature-icon">
+                    <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#7CFC00;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#228B22;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <path
+                            d="M32 2C15.46 2 2 15.46 2 32s13.46 30 30 30 30-13.46 30-30S48.54 2 32 2zm16 34c-2.209 0-4-1.791-4-4 0-6.617-5.383-12-12-12-2.209 0-4-1.791-4-4s1.791-4 4-4c11.028 0 20 8.972 20 20 0 2.209-1.791 4-4 4z"
+                            fill="url(#grad2)" />
+                        <path
+                            d="M22 48c11.028 0 20-8.972 20-20 0-2.209-1.791-4-4-4-2.209 0-4 1.791-4 4 0 6.617-5.383 12-12 12-2.209 0-4 1.791-4 4s1.791 4 4 4z"
+                            fill="url(#grad2)" opacity="0.8" />
+                    </svg>
+                </div>
+                <h3>Bahan Segar</h3>
+                <p>Kami hanya menggunakan bahan-bahan segar berkualitas terbaik setiap harinya.</p>
             </div>
             <div class="feature-card">
-                <div class="feature-icon">😊</div>
-                <h3>Pelayanan Ramah</h3>
-                <p>Staf yang profesional dan bersikap ramah siap melayani dengan sepenuh hati</p>
+                <div class="feature-icon">
+                    <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#FF4500;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <path d="M32 2L9 25l9 29h28l9-29L32 2zm0 8l16 16H16L32 10z" fill="url(#grad3)" />
+                        <path d="M32 18l5 10h10l-8 6 3 10-10-7-10 7 3-10-8-6h10z" fill="#FFF" />
+                    </svg>
+                </div>
+                <h3>Pelayanan Prima</h3>
+                <p>Kenyamanan Anda adalah prioritas kami dengan pelayanan yang ramah dan cepat.</p>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon">⚡</div>
-                <h3>Pengiriman Cepat</h3>
-                <p>Pesan dari rumah dan kami antar dengan cepat ke lokasi Anda</p>
+        </div>
+    </section>
+
+    <!-- Branches -->
+    <section class="branches">
+        <h2>Cabang Kami</h2>
+        <div class="branches-grid">
+            <div class="branch-card">
+                <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80"
+                    alt="Cabang Pusat" class="branch-img">
+                <div class="branch-info">
+                    <h3>Cabang Pusat (Jakarta)</h3>
+                    <p>📍 Jl. Sudirman No. 45, Jakarta Selatan</p>
+                    <p>📞 (021) 555-0123</p>
+                    <a href="#" class="branch-btn">Lihat Lokasi</a>
+                </div>
+            </div>
+            <div class="branch-card">
+                <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=800&q=80"
+                    alt="Cabang Bandung" class="branch-img">
+                <div class="branch-info">
+                    <h3>Cabang Makassar</h3>
+                    <p>📍 Jl. Rappocini Raya No. 79</p>
+                    <p>📞 (022) 555-0124</p>
+                    <a href="#" class="branch-btn">Lihat Lokasi</a>
+                </div>
+            </div>
+            <div class="branch-card">
+                <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80"
+                    alt="Cabang Surabaya" class="branch-img">
+                <div class="branch-info">
+                    <h3>Cabang Bandung</h3>
+                    <p>📍 Jl. Braga No. 88, Bandung</p>
+                    <p>📞 (031) 555-0125</p>
+                    <a href="#" class="branch-btn">Lihat Lokasi</a>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="footer" id="kontak">
+    <footer class="footer">
         <div class="footer-content">
             <div class="footer-section">
                 <h3>Tentang Kami</h3>
@@ -102,8 +214,37 @@
         </div>
     </footer>
 
-    <script src="../static/session-init.js"></script>
-    <script src="../static/carousel.js"></script>
+    <script>
+        // Best Seller carousel functionality
+        const bestSellerSlide = document.querySelector('.best-seller-slide');
+        const bestSellerItems = document.querySelectorAll('.best-seller-slide .menu-item');
+        const bestSellerPrevBtn = document.querySelector('.best-seller-prev-btn');
+        const bestSellerNextBtn = document.querySelector('.best-seller-next-btn');
+        let bestSellerCounter = 0;
+        let bestSellerSize = bestSellerItems[0].clientWidth;
+
+        // Update size on window resize for best seller carousel
+        window.addEventListener('resize', () => {
+            bestSellerSize = bestSellerItems[0].clientWidth;
+            bestSellerSlide.style.transition = "none";
+            bestSellerSlide.style.transform = 'translateX(' + (-bestSellerSize * bestSellerCounter) + 'px)';
+        });
+
+        bestSellerNextBtn.addEventListener('click', () => {
+            if (bestSellerCounter >= bestSellerItems.length - 1) return;
+            bestSellerSlide.style.transition = "transform 0.5s ease-in-out";
+            bestSellerCounter++;
+            bestSellerSlide.style.transform = 'translateX(' + (-bestSellerSize * bestSellerCounter) + 'px)';
+        });
+
+        bestSellerPrevBtn.addEventListener('click', () => {
+            if (bestSellerCounter <= 0) return;
+            bestSellerSlide.style.transition = "transform 0.5s ease-in-out";
+            bestSellerCounter--;
+            bestSellerSlide.style.transform = 'translateX(' + (-bestSellerSize * bestSellerCounter) + 'px)';
+        });
+    </script>
+
 </body>
 
 </html>

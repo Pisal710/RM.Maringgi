@@ -40,7 +40,6 @@ CREATE TABLE IF NOT EXISTS menu_makanan (
   id INT AUTO_INCREMENT PRIMARY KEY,
   nama VARCHAR(100) NOT NULL,
   harga INT NOT NULL,
-  gambar VARCHAR(255),
   deskripsi TEXT,
   kategori VARCHAR(50),
   is_available BOOLEAN DEFAULT TRUE,
@@ -113,11 +112,11 @@ INSERT INTO admin_login (username, password) VALUES
 ('admin', '$2b$12$X7W6V5U4T3S2R1Q0P9O8N7M6L5K4J3I2H1G0F9E8D7C6B5A4Z3Y2X');
 
 -- Insert Menu Makanan
-INSERT INTO menu_makanan (id, nama, harga, gambar, deskripsi, kategori, is_available) VALUES 
-(1, 'Nasi Goreng Spesial', 25000, '/static/images/nasii goreng spesial.jpg', 'Nasi goreng dengan telur, ayam, dan sayuran pilihan', 'Nasi', TRUE),
-(2, 'Mie Goreng Jawa', 20000, '/static/images/Mie_Goreng_Jawa_Pedas.jpg', 'Mie goreng khas Jawa dengan rasa yang kuat dan pedas', 'Mie', TRUE),
-(3, 'Ayam Geprek Sambal Ijo', 28000, '/static/images/ayam geprek sambal ijo.jpg', 'Ayam geprek dengan sambal ijo yang segar dan pedas', 'Ayam', TRUE),
-(4, 'Sate Ayam Madura 10 Tusuk', 30000, '/static/images/sate ayam madura .jpeg', 'Sate ayam khas Madura dengan bumbu kacang lezat', 'Daging', TRUE),
+INSERT INTO menu_makanan (id, nama, harga, deskripsi, kategori, is_available) VALUES 
+(1, 'Nasi Goreng Spesial', 25000, 'Nasi goreng dengan telur, ayam, dan sayuran pilihan', 'Nasi', TRUE),
+(2, 'Mie Goreng Jawa', 20000, 'Mie goreng khas Jawa dengan rasa yang kuat dan pedas', 'Mie', TRUE),
+(3, 'Ayam Geprek Sambal Ijo', 28000, 'Ayam geprek dengan sambal ijo yang segar dan pedas', 'Ayam', TRUE),
+(4, 'Sate Ayam Madura 10 Tusuk', 30000, 'Sate ayam khas Madura dengan bumbu kacang lezat', 'Daging', TRUE),
 (5, 'Es Teh Manis', 3000, '/static/images/es teh manis.jpg', 'Minuman es teh manis segar', 'Minuman', TRUE),
 (6, 'Kwetiau Goreng Seafood', 35000, '/static/images/kwetiau goreng seafood.jpeg', 'Kwetiau goreng dengan topping seafood premium', 'Kwetiau', TRUE),
 (7, 'Coto Makassar', 20000, '/static/images/coto makassar.jpg', 'Sup tradisional Makassar dengan daging sapi empuk', 'Sup', TRUE),
